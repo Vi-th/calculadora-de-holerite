@@ -4,128 +4,213 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calculadora de Holerite</title>
+
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f3f4f6;
-      color: #222;
+      font-family: Arial, Helvetica, sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #eee7ff, #dfe7ff);
+      color: #172554;
+      padding: 30px 16px;
     }
 
     .container {
-      width: min(900px, 92%);
-      margin: 40px auto;
+      width: min(900px, 100%);
+      margin: 0 auto;
     }
 
-    h1 {
+    header {
+      background: #172554;
+      color: white;
+      border-radius: 20px 20px 0 0;
+      padding: 28px;
       text-align: center;
+      box-shadow: 0 10px 25px rgba(23, 37, 84, 0.18);
+    }
+
+    header h1 {
+      font-size: 30px;
       margin-bottom: 8px;
     }
 
-    .subtitulo {
-      text-align: center;
-      color: #666;
-      margin-bottom: 30px;
+    header p {
+      color: #ddd6fe;
+      font-size: 15px;
     }
 
     .card {
       background: white;
-      padding: 24px;
-      border-radius: 12px;
-      box-shadow: 0 3px 12px rgba(0,0,0,.08);
-      margin-bottom: 20px;
+      padding: 28px;
+      box-shadow: 0 10px 25px rgba(23, 37, 84, 0.12);
+    }
+
+    .card:last-child {
+      border-radius: 0 0 20px 20px;
     }
 
     h2 {
-      margin-top: 0;
-      border-bottom: 2px solid #ddd;
-      padding-bottom: 10px;
+      color: #312e81;
+      margin-bottom: 18px;
+      font-size: 21px;
     }
 
-    .grid {
+    .inputs {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 16px;
     }
 
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
     label {
-      display: block;
       font-weight: bold;
-      margin-bottom: 6px;
+      color: #1e3a8a;
+      font-size: 14px;
     }
 
     input {
       width: 100%;
-      padding: 10px;
-      border: 1px solid #bbb;
-      border-radius: 6px;
+      padding: 12px 14px;
+      border: 2px solid #c4b5fd;
+      border-radius: 10px;
       font-size: 16px;
+      color: #172554;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    input:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px #ddd6fe;
+    }
+
+    .button-area {
+      margin-top: 22px;
+      text-align: center;
     }
 
     button {
-      display: block;
-      width: 100%;
-      margin-top: 20px;
-      padding: 13px;
-      border: 0;
-      border-radius: 7px;
-      background: #222;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 30px;
+      background: #4f46e5;
       color: white;
-      font-size: 17px;
+      font-size: 16px;
+      font-weight: bold;
       cursor: pointer;
+      transition: 0.2s;
     }
 
     button:hover {
-      background: #444;
+      background: #3730a3;
+      transform: translateY(-1px);
     }
 
-    table {
+    #resultado {
+      display: none;
+    }
+
+    .holerite {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 15px;
+      margin-top: 10px;
+      overflow: hidden;
+      border-radius: 12px;
     }
 
-    th, td {
-      padding: 11px;
-      border-bottom: 1px solid #ddd;
+    .holerite th {
+      background: #312e81;
+      color: white;
+      padding: 13px;
       text-align: left;
     }
 
-    th {
-      background: #eee;
+    .holerite td {
+      padding: 12px 13px;
+      border-bottom: 1px solid #ddd6fe;
+    }
+
+    .holerite tr:nth-child(even) {
+      background: #f5f3ff;
     }
 
     .valor {
       text-align: right;
+      font-weight: bold;
     }
 
     .liquido {
-      font-size: 24px;
-      font-weight: bold;
-      text-align: center;
-      padding: 18px;
       margin-top: 20px;
-      border-top: 3px solid #222;
+      padding: 20px;
+      border-radius: 14px;
+      background: #ede9fe;
+      border-left: 6px solid #4f46e5;
+    }
+
+    .liquido span {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 5px;
+      color: #4338ca;
+      font-weight: bold;
+    }
+
+    .liquido strong {
+      font-size: 28px;
+      color: #172554;
     }
 
     .fgts {
-      margin-top: 15px;
-      padding: 12px;
-      background: #f0f0f0;
-      border-radius: 6px;
+      margin-top: 14px;
+      padding: 15px;
+      border-radius: 12px;
+      background: #eff6ff;
+      color: #1e3a8a;
     }
 
-    .erro {
-      color: #b00020;
-      font-weight: bold;
-      margin-top: 12px;
+    .formula {
+      margin-top: 22px;
+      padding: 16px;
+      background: #f8f7ff;
+      border: 1px solid #ddd6fe;
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #3730a3;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 18px;
+      color: #475569;
+      font-size: 12px;
     }
 
     @media (max-width: 650px) {
-      .grid {
+      .inputs {
         grid-template-columns: 1fr;
+      }
+
+      header h1 {
+        font-size: 24px;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .holerite {
+        font-size: 13px;
       }
     }
   </style>
@@ -133,71 +218,141 @@
 
 <body>
   <div class="container">
-    <h1>Calculadora de Holerite</h1>
-    <p class="subtitulo">Laboratório de Departamento Pessoal</p>
 
-    <div class="card">
+    <header>
+      <h1>Calculadora de Holerite</h1>
+      <p>Departamento Pessoal • HTML + JavaScript</p>
+    </header>
+
+    <section class="card">
       <h2>Dados do trabalhador</h2>
 
-      <div class="grid">
-        <div>
+      <div class="inputs">
+        <div class="field">
           <label for="salario">Salário-base (R$)</label>
-          <input id="salario" type="number" value="2200" step="0.01" min="0">
+          <input id="salario" type="number" value="2200" min="0" step="0.01">
         </div>
 
-        <div>
-          <label for="horasExtras">Horas extras 50%</label>
-          <input id="horasExtras" type="number" value="8" step="0.01" min="0">
+        <div class="field">
+          <label for="jornada">Jornada mensal (horas)</label>
+          <input id="jornada" type="number" value="220" min="1">
         </div>
 
-        <div>
-          <label for="diasUteis">Dias úteis do mês</label>
-          <input id="diasUteis" type="number" value="21" min="1">
+        <div class="field">
+          <label for="extras">Horas extras 50%</label>
+          <input id="extras" type="number" value="8" min="0" step="0.01">
         </div>
 
-        <div>
+        <div class="field">
+          <label for="uteis">Dias úteis do mês</label>
+          <input id="uteis" type="number" value="21" min="1">
+        </div>
+
+        <div class="field">
           <label for="domingos">Domingos e feriados</label>
           <input id="domingos" type="number" value="5" min="0">
         </div>
 
-        <div>
-          <label for="valeTransporte">Custo do vale-transporte (R$)</label>
-          <input id="valeTransporte" type="number" value="189.20" step="0.01" min="0">
+        <div class="field">
+          <label for="vale">Custo do vale-transporte (R$)</label>
+          <input id="vale" type="number" value="189.20" min="0" step="0.01">
         </div>
       </div>
 
-      <button onclick="calcularHolerite()">Calcular holerite</button>
-      <div id="erro" class="erro"></div>
-    </div>
+      <div class="button-area">
+        <button type="button" onclick="calcularHolerite()">Calcular holerite</button>
+      </div>
+    </section>
 
-    <div class="card" id="resultado" style="display:none;">
-      <h2>Holerite</h2>
+    <section class="card" id="resultado">
+      <h2>Holerite calculado</h2>
 
-      <table>
+      <table class="holerite">
         <thead>
           <tr>
             <th>Descrição</th>
             <th>Referência</th>
-            <th>Proventos</th>
-            <th>Descontos</th>
+            <th class="valor">Proventos</th>
+            <th class="valor">Descontos</th>
           </tr>
         </thead>
-        <tbody id="linhasHolerite"></tbody>
+
+        <tbody>
+          <tr>
+            <td>Salário-base</td>
+            <td id="refSalario">220 h</td>
+            <td class="valor" id="proventoSalario">R$ 0,00</td>
+            <td class="valor">—</td>
+          </tr>
+
+          <tr>
+            <td>Horas extras 50%</td>
+            <td id="refExtras">0 h</td>
+            <td class="valor" id="proventoExtras">R$ 0,00</td>
+            <td class="valor">—</td>
+          </tr>
+
+          <tr>
+            <td>DSR sobre horas extras</td>
+            <td id="refDSR">0 dias</td>
+            <td class="valor" id="proventoDSR">R$ 0,00</td>
+            <td class="valor">—</td>
+          </tr>
+
+          <tr>
+            <td>INSS</td>
+            <td id="refINSS">—</td>
+            <td class="valor">—</td>
+            <td class="valor" id="descontoINSS">R$ 0,00</td>
+          </tr>
+
+          <tr>
+            <td>IRRF</td>
+            <td id="refIRRF">Isento</td>
+            <td class="valor">—</td>
+            <td class="valor" id="descontoIRRF">R$ 0,00</td>
+          </tr>
+
+          <tr>
+            <td>Vale-transporte</td>
+            <td>Até 6%</td>
+            <td class="valor">—</td>
+            <td class="valor" id="descontoVale">R$ 0,00</td>
+          </tr>
+        </tbody>
       </table>
 
       <div class="liquido">
-        Líquido a receber: <span id="liquido"></span>
+        <span>LÍQUIDO A RECEBER</span>
+        <strong id="liquido">R$ 0,00</strong>
       </div>
 
       <div class="fgts">
         <strong>FGTS da empresa:</strong>
-        <span id="fgts"></span>
+        <span id="fgts">R$ 0,00</span>
+        <br>
+        <small>O FGTS é depositado pela empresa e não é descontado do trabalhador.</small>
       </div>
-    </div>
+
+      <div class="formula">
+        <strong>Fórmulas utilizadas:</strong><br>
+        Valor da hora = salário ÷ jornada mensal<br>
+        Hora extra = valor da hora × 1,5 × horas extras<br>
+        DSR = horas extras em R$ ÷ dias úteis × domingos e feriados<br>
+        Salário bruto = salário + horas extras + DSR<br>
+        Líquido = salário bruto − INSS − IRRF − vale-transporte<br>
+        FGTS = salário bruto × 8%
+      </div>
+    </section>
+
+    <footer>
+      Atividade de Departamento Pessoal — calculadora de holerite.
+    </footer>
+
   </div>
 
   <script>
-    // Estrutura de decisão do INSS apresentada na página 26 do material.
+    // Página 26: mesma lógica de decisão do INSS apresentada no material.
     function calcularInss(b) {
       if (b <= 1621.00)
         return b * 0.075;
@@ -214,7 +369,7 @@
       return 988.09;
     }
 
-    function dinheiro(valor) {
+    function moeda(valor) {
       return valor.toLocaleString("pt-BR", {
         style: "currency",
         currency: "BRL"
@@ -223,75 +378,64 @@
 
     function calcularHolerite() {
       const salario = Number(document.getElementById("salario").value);
-      const horasExtras = Number(document.getElementById("horasExtras").value);
-      const diasUteis = Number(document.getElementById("diasUteis").value);
+      const jornada = Number(document.getElementById("jornada").value);
+      const extras = Number(document.getElementById("extras").value);
+      const uteis = Number(document.getElementById("uteis").value);
       const domingos = Number(document.getElementById("domingos").value);
-      const custoVale = Number(document.getElementById("valeTransporte").value);
+      const valeCusto = Number(document.getElementById("vale").value);
 
-      const erro = document.getElementById("erro");
-      erro.textContent = "";
-
-      if (salario < 0 || horasExtras < 0 || diasUteis <= 0 ||
-          domingos < 0 || custoVale < 0) {
-        erro.textContent = "Preencha os valores corretamente.";
+      if (salario < 0 || jornada <= 0 || extras < 0 || uteis <= 0 || domingos < 0 || valeCusto < 0) {
+        alert("Confira os valores informados.");
         return;
       }
 
-      // Jornada mensal padrão apresentada no material: 220 horas.
-      const jornadaMensal = 220;
+      const valorHora = salario / jornada;
+      const horaExtra = valorHora * 1.5 * extras;
+      const dsr = uteis > 0 ? (horaExtra / uteis) * domingos : 0;
+      const bruto = salario + horaExtra + dsr;
 
-      // Cálculos da página 24.
-      const valorHora = salario / jornadaMensal;
-      const valorHoraExtra = valorHora * 1.5;
-      const horasExtrasValor = valorHoraExtra * horasExtras;
-      const dsr = (horasExtrasValor / diasUteis) * domingos;
-      const salarioBruto = salario + horasExtrasValor + dsr;
+      // INSS conforme a escada de decisões da página 26.
+      const inss = calcularInss(bruto);
 
-      // INSS da página 26.
-      const inss = calcularInss(salarioBruto);
+      const baseIRRF = bruto - inss;
 
-      // IRRF conforme o exemplo/material: até R$ 5.000 = isento.
-      const baseIrrf = salarioBruto - inss;
-      const irrf = baseIrrf <= 5000 ? 0 : 0;
+      // Conforme o material, até R$ 5.000,00 de base é isento.
+      const irrf = baseIRRF <= 5000 ? 0 : 0;
 
       // Vale-transporte: menor valor entre 6% do salário-base e o custo informado.
-      const valeTransporte = Math.min(salario * 0.06, custoVale);
+      const vale = Math.min(salario * 0.06, valeCusto);
 
-      const liquido = salarioBruto - inss - irrf - valeTransporte;
-      const fgts = salarioBruto * 0.08;
+      const liquido = bruto - inss - irrf - vale;
+      const fgts = bruto * 0.08;
 
-      const linhas = [
-        ["Salário-base", "220 h", salario, null],
-        ["Horas extras 50%", horasExtras + " h", horasExtrasValor, null],
-        ["DSR sobre horas extras", domingos + " d", dsr, null],
-        ["INSS", "progressivo", null, inss],
-        ["IRRF", baseIrrf <= 5000 ? "isento" : "acima da faixa", null, irrf],
-        ["Vale-transporte", "6%", null, valeTransporte]
-      ];
+      document.getElementById("refSalario").textContent = jornada + " h";
+      document.getElementById("refExtras").textContent = extras + " h";
+      document.getElementById("refDSR").textContent = domingos + " dias";
 
-      const tbody = document.getElementById("linhasHolerite");
-      tbody.innerHTML = "";
+      document.getElementById("proventoSalario").textContent = moeda(salario);
+      document.getElementById("proventoExtras").textContent = moeda(horaExtra);
+      document.getElementById("proventoDSR").textContent = moeda(dsr);
 
-      linhas.forEach(linha => {
-        const tr = document.createElement("tr");
+      document.getElementById("refINSS").textContent = "Progressivo";
+      document.getElementById("descontoINSS").textContent = moeda(inss);
 
-        tr.innerHTML = `
-          <td>${linha[0]}</td>
-          <td>${linha[1]}</td>
-          <td class="valor">${linha[2] !== null ? dinheiro(linha[2]) : ""}</td>
-          <td class="valor">${linha[3] !== null ? dinheiro(linha[3]) : ""}</td>
-        `;
+      document.getElementById("refIRRF").textContent = baseIRRF <= 5000 ? "Isento" : "Consultar tabela";
+      document.getElementById("descontoIRRF").textContent = moeda(irrf);
 
-        tbody.appendChild(tr);
-      });
+      document.getElementById("descontoVale").textContent = moeda(vale);
 
-      document.getElementById("liquido").textContent = dinheiro(liquido);
-      document.getElementById("fgts").textContent = dinheiro(fgts);
+      document.getElementById("liquido").textContent = moeda(liquido);
+      document.getElementById("fgts").textContent = moeda(fgts);
+
       document.getElementById("resultado").style.display = "block";
+      document.getElementById("resultado").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
     }
 
-    // Calcula o exemplo do material ao abrir a página.
-    calcularHolerite();
+    // Calcula automaticamente o exemplo inicial do material.
+    window.addEventListener("DOMContentLoaded", calcularHolerite);
   </script>
 </body>
 </html>
